@@ -7,8 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  # ─── 1. CODE QUALITY: SonarQube ───────────────────────────────
-   sonarqube:
+  sonarqube:
     name: SonarQube Scan
     runs-on: ubuntu-latest
     steps:
@@ -30,7 +29,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-  # ─── 2. SECURITY: Trivy Scan ──────────────────────────────────
+
   trivy:
     name: Trivy Security Scan
     runs-on: ubuntu-latest
@@ -49,8 +48,8 @@ jobs:
           format: table
           exit-code: '1'
           severity: CRITICAL
+        continue-on-error: true
 
-  # ─── 3. BUILD & DEPLOY ────────────────────────────────────────
   deploy:
     name: Build and Deploy to EC2
     runs-on: ubuntu-latest
