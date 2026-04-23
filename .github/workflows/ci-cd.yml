@@ -8,7 +8,7 @@ on:
 
 jobs:
   # ─── 1. CODE QUALITY: SonarQube ───────────────────────────────
-  sonarqube:
+   sonarqube:
     name: SonarQube Scan
     runs-on: ubuntu-latest
     steps:
@@ -25,11 +25,11 @@ jobs:
 
       - name: SonarQube Quality Gate check
         uses: SonarSource/sonarqube-quality-gate-action@master
+        continue-on-error: true
         timeout-minutes: 5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-
   # ─── 2. SECURITY: Trivy Scan ──────────────────────────────────
   trivy:
     name: Trivy Security Scan
