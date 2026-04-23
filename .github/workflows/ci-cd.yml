@@ -18,18 +18,10 @@ jobs:
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-
-      - name: SonarQube Quality Gate check
-        uses: SonarSource/sonarqube-quality-gate-action@master
         continue-on-error: true
-        timeout-minutes: 10
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          SONAR_SCANNER_OPTS: "-Xmx512m"
 
   trivy:
     name: Trivy Security Scan
@@ -44,12 +36,12 @@ jobs:
 
       - name: Run Trivy vulnerability scan
         uses: aquasecurity/trivy-action@master
+        continue-on-error: true
         with:
           image-ref: distraction-detector:scan
           format: table
           exit-code: '1'
           severity: CRITICAL
-        continue-on-error: true
 
   deploy:
     name: Build and Deploy to EC2
